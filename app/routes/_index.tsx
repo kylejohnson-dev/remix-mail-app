@@ -1,15 +1,16 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Archive, ArchiveX, Calculator, Calendar, Clock, CreditCard, EllipsisVertical, Forward, Reply, ReplyAll, Settings, Smile, Trash2, User } from "lucide-react";
+import { Archive, ArchiveX, Calculator, Calendar, Clock, CreditCard, EllipsisVertical, Forward, Mail, Reply, ReplyAll, Settings, Smile, Trash2, User } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "~/components/ui/command";
+import { Command, CommandGroup, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "~/components/ui/command";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "~/components/ui/resizable";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { Separator } from "~/components/ui/separator";
+import { Switch } from "~/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Textarea } from "~/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip";
 
 export const meta: MetaFunction = () => {
@@ -28,7 +29,7 @@ export default function Index() {
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="fixed inset-0"
+      className="absolute inset-0"
     >
       <ResizablePanel 
         defaultSize={20} 
@@ -38,30 +39,39 @@ export default function Index() {
         collapsible
         onCollapse={onCollapse}
       >
+        <div className="p-2">
+          <Select defaultValue="kyle@example.com">
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="kyle@example.com">
+                  <div className="flex items-center">
+                    <Mail className="w-4 h-4" />
+                    <span className="ml-2">kyle@example.com</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="kyle@gmail.com">
+                  <div className="flex items-center">
+                    <Mail className="w-4 h-4" />
+                    <span className="ml-2">kyle@gmail.com</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="kyle@me.com">
+                  <div className="flex items-center">
+                    <Mail className="w-4 h-4" />
+                    <span className="ml-2">kyle@me.com</span>
+                  </div>
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        
+        <Separator orientation="horizontal" className="w-full" />
         <Command className="">
-          {/* <CommandInput placeholder="Type a command or search..." /> */}
           <CommandList>
-            {/* <CommandEmpty>No results found.</CommandEmpty> */}
-            <CommandGroup>
-              <CommandItem>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a fruit" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Fruits</SelectLabel>
-                      <SelectItem value="apple">Apple</SelectItem>
-                      <SelectItem value="banana">Banana</SelectItem>
-                      <SelectItem value="blueberry">Blueberry</SelectItem>
-                      <SelectItem value="grapes">Grapes</SelectItem>
-                      <SelectItem value="pineapple">Pineapple</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
             <CommandGroup heading="Suggestions">
               <CommandItem>
                 <Calendar className="mr-2 h-4 w-4" />
@@ -100,9 +110,7 @@ export default function Index() {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={80}>
-        <ResizablePanelGroup
-          direction="horizontal"
-        >
+        <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={50} minSize={35}>
             <div className="flex items-center px-4 py-2">
               <h1 className="text-xl font-bold">Inbox</h1>
@@ -111,20 +119,16 @@ export default function Index() {
                   <TabsTrigger value="all-mail">All mail</TabsTrigger>
                   <TabsTrigger value="unread">Unread</TabsTrigger>
                 </TabsList>
-                {/* <TabsContent value="all-mail">
-
-                </TabsContent>
-                <TabsContent value="unread">
-
-                </TabsContent> */}
+        
               </Tabs>
             </div>
-            <ScrollArea className="w-full h-full">
+            <Separator orientation="horizontal" className="w-full" />
+            <ScrollArea className="w-full h-[calc(100vh-56px)]">
               
-              <div className="flex flex-col gap-2 p-4 pt-0">
+              <div className="flex flex-col gap-2 p-4">
 
                 {emails.map((email) => (
-                  <button key={email.id} className="flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent bg-muted">
+                  <button key={email.id} className="flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent">
                     <div className="flex w-full flex-col gap-1">
                       <div className="flex items-center">
                         <div className="flex items-center gap-2">
@@ -139,9 +143,6 @@ export default function Index() {
                       {email.tags.map((tag) => (
                         <div key={tag} className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80">{tag}</div>
                       ))}
-                      {/* <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">meeting</div>
-                      <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80">work</div>
-                      <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">important</div> */}
                     </div>
                   </button>
                 ))}
@@ -151,113 +152,141 @@ export default function Index() {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={50} minSize={45}>
-            <div className="flex items-center p-2">
-              <div className="flex items-center gap-2">
-                <TooltipProvider delayDuration={0}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Archive className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Archive</p>
-                    </TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <ArchiveX className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Move to junk</p>
-                    </TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Move to trash</p>
-                    </TooltipContent>
-                  </Tooltip>
-                  <Separator orientation="vertical" className="h-6 mx-1" />
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Clock className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Snooze</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+            <div className="flex h-full flex-col">
+              <div className="flex items-center p-2">
+                <div className="flex items-center gap-2">
+                  <TooltipProvider delayDuration={0}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <Archive className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Archive</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <ArchiveX className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Move to junk</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Move to trash</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Separator orientation="vertical" className="h-6 mx-1" />
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <Clock className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Snooze</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <div className="ml-auto flex items-center gap-2">
+                  <TooltipProvider delayDuration={0}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <Reply className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Reply</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <ReplyAll className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Reply all</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <Forward className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Forward</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <Separator orientation="vertical" className="h-6 mx-2" />
+                <Button variant="ghost" size="icon">
+                  <EllipsisVertical className="h-4 w-4" />
+                </Button>
               </div>
-              <div className="ml-auto flex items-center gap-2">
-                <TooltipProvider delayDuration={0}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Reply className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Reply</p>
-                    </TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <ReplyAll className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Reply all</p>
-                    </TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Forward className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Forward</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-              <Separator orientation="vertical" className="h-6 mx-2" />
-              <Button variant="ghost" size="icon">
-                <EllipsisVertical className="h-4 w-4" />
-              </Button>
-            </div>
-            <ScrollArea className="h-full w-full">
-            <div className="p-4">
-              <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
-              {tags.map((tag) => (
-
-                  <div key={tag} className="text-sm">
-                    {tag}
+              <Separator orientation="horizontal" className="w-full" />
+              {/* <ScrollArea className="h-full w-full"> */}
+                <div className="flex flex-1 flex-col">
+                  <div className="flex items-start p-4">
+                    <div className="flex items-start gap-4 text-sm">
+                      <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+                        <span className="flex h-full w-full items-center justify-center rounded-full bg-muted">WS</span>
+                      </span>
+                      <div className="grid gap-1">
+                        <div className="font-semibold">William Smith</div>
+                        <div className="line-clamp-1 text-xs">Meeting Tomorrow</div>
+                        <div className="line-clamp-1 text-xs">
+                          <span className="font-medium">Reply-To:</span> williamsmith@example.com
+                        </div>
+                      </div>
+                    </div>
+                    <div className="ml-auto text-xs text-muted-foreground">Oct 22, 2023, 9:00:00 AM</div>
                   </div>
-                  // <Separator className="my-2" />
-              ))}
+                  <Separator orientation="horizontal" className="w-full" />
+                  <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
+                    Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. 
+                    
+                    Please come prepared with any questions or insights you may have. Looking forward to our meeting! 
+                    
+                    Best regards, William
+                  </div>
+                  <Separator orientation="horizontal" className="w-full" />
+                  <div className="p-4">
+                    <form>
+                      <div className="grid gap-4">
+                        <Textarea placeholder="Reply" />
+                        <div className="flex items-center gap-2">
+                          <Switch id="mute-thread" />
+                          <Label htmlFor="mute-thread" className="text-xs font-normal">Mute this thread</Label>
+                          <Button size="sm" className="text-xs ml-auto">Send</Button>
+                        </div>
+                      </div>
+                      
+                    </form>
+                  </div>
+                </div>
+              {/* </ScrollArea> */}
             </div>
-            </ScrollArea>
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>
     </ResizablePanelGroup>
   );
 }
-
-const tags = Array.from({ length: 50 }).map(
-  (_, i, a) => `v1.2.0-beta.${a.length - i}`
-)
 
 const emails = Array.from({ length: 25 }).map((_, i) => ({
   id: i.toString(),
