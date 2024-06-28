@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Archive, ArchiveX, Calculator, Calendar, Clock, CreditCard, EllipsisVertical, Forward, Mail, Reply, ReplyAll, Settings, Smile, Trash2, User } from "lucide-react";
+import { Archive, ArchiveX, Calculator, Calendar, CircleAlert, Clock, CreditCard, EllipsisVertical, File, Forward, Inbox, Mail, MessagesSquare, Reply, ReplyAll, Send, Settings, ShoppingCart, Smile, Trash2, User, Users } from "lucide-react";
+import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Command, CommandGroup, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "~/components/ui/command";
 import { Input } from "~/components/ui/input";
@@ -21,15 +22,21 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   function onCollapse() {
     console.log("collasped")
+    setIsCollapsed(true)
+  }
+
+  function onExpand() {
+    setIsCollapsed(false)
   }
 
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="absolute inset-0"
+      className="fixed inset-0"
     >
       <ResizablePanel 
         defaultSize={20} 
@@ -38,6 +45,8 @@ export default function Index() {
         collapsedSize={5} 
         collapsible
         onCollapse={onCollapse}
+        onExpand={onExpand}
+        className="group"
       >
         <div className="p-2">
           <Select defaultValue="kyle@example.com">
@@ -70,48 +79,148 @@ export default function Index() {
         </div>
         
         <Separator orientation="horizontal" className="w-full" />
-        <Command className="">
-          <CommandList>
-            <CommandGroup heading="Suggestions">
-              <CommandItem>
-                <Calendar className="mr-2 h-4 w-4" />
-                <span>Calendar</span>
-              </CommandItem>
-              <CommandItem>
-                <Smile className="mr-2 h-4 w-4" />
-                <span>Search Emoji</span>
-              </CommandItem>
-              <CommandItem>
-                <Calculator className="mr-2 h-4 w-4" />
-                <span>Calculator</span>
-              </CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroup heading="Settings">
-              <CommandItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-                <CommandShortcut>⌘P</CommandShortcut>
-              </CommandItem>
-              <CommandItem>
-                <CreditCard className="mr-2 h-4 w-4" />
-                <span>Billing</span>
-                <CommandShortcut>⌘B</CommandShortcut>
-              </CommandItem>
-              <CommandItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-                <CommandShortcut>⌘S</CommandShortcut>
-              </CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
-          </CommandList>
-        </Command>
+        <Tabs defaultValue="inbox">
+          <TabsList className="h-auto flex flex-col gap-y-1 bg-white p-2">
+            <TabsTrigger 
+              value="inbox" 
+              className={`${isCollapsed && 'justify-center'} w-full group-[[data-collapsed=true]]:justify-center justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+            >
+              <Inbox className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Inbox</span>
+                  <span className="ml-auto">128</span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="drafts" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+            >
+              <File className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Drafts</span>
+                  <span className="ml-auto">9</span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="sent" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              >
+              <Send className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Sent</span>
+                  <span className="ml-auto"></span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="junk" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              >
+              <ArchiveX className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Junk</span>
+                  <span className="ml-auto">23</span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="trash" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              >
+              <Trash2 className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Trash</span>
+                  <span className="ml-auto"></span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="archive" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+            >
+              <Archive className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Archive</span>
+                  <span className="ml-auto"></span>
+                </>
+              }
+            </TabsTrigger>
+            <Separator orientation="horizontal" className="w-[calc(100%+16px)] my-1" />
+            <TabsTrigger 
+              value="social" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+            >
+              <Users className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Social</span>
+                  <span className="ml-auto">972</span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="updates" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+            >
+              <CircleAlert className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Updates</span>
+                  <span className="ml-auto">342</span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="forums" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              >
+              <MessagesSquare className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Forums</span>
+                  <span className="ml-auto">128</span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="shopping" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              >
+              <ShoppingCart className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Shopping</span>
+                  <span className="ml-auto">8</span>
+                </>
+              }
+            </TabsTrigger>
+            <TabsTrigger 
+              value="promotions" 
+              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              >
+              <Archive className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+              {!isCollapsed && 
+                <>
+                  <span>Promotions</span>
+                  <span className="ml-auto">21</span>
+                </>
+              }
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={80}>
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={50} minSize={35}>
+          <ResizablePanel defaultSize={50} minSize={40}>
             <div className="flex items-center px-4 py-2">
               <h1 className="text-xl font-bold">Inbox</h1>
               <Tabs defaultValue="all-mail" className="ml-auto">
@@ -151,7 +260,7 @@ export default function Index() {
             </ScrollArea>
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={50} minSize={45}>
+          <ResizablePanel defaultSize={50} minSize={50}>
             <div className="flex h-full flex-col">
               <div className="flex items-center p-2">
                 <div className="flex items-center gap-2">
@@ -288,15 +397,351 @@ export default function Index() {
   );
 }
 
+type SideBarNavTabProps = {
+  isCollapsed: boolean,
+}
+
+export function SideBarNavTab({ isCollapsed }: SideBarNavTabProps) {
+  return (
+    <TabsTrigger 
+      value="drafts" 
+      className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+    >
+      <File className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
+      {!isCollapsed && 
+        <>
+          <span>Drafts</span>
+          <span className="ml-auto">9</span>
+        </>
+      }
+    </TabsTrigger>
+  )
+}
+
 const emails = Array.from({ length: 25 }).map((_, i) => ({
   id: i.toString(),
   from: "William Smith",
-  date: "8 months ago",
+  date: "Oct 22, 2023, 9:00:00 AM",
   subject: "Meeting Tomorrow",
-  message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to",
+  message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
   tags: [
     "meeting",
     "work",
     "important",
   ],
 }))
+
+const mail = [
+  {
+    // id: i.toString(),
+    from: "William Smith",
+    date: "Oct 22, 2023, 9:00:00 AM",
+    subject: "Meeting Tomorrow",
+    message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+    tags: [
+      "meeting",
+      "work",
+      "important",
+    ],
+    replyTo: "williamsmith@example.com",
+    unread: false,
+  },
+  {
+    // id: i.toString(),
+    from: "Alice Smith",
+    date: "Oct 22, 2023, 10:30:00 AM",
+    subject: "Re: Project Update",
+    message: "Thank you for the project update. It looks great! I've gone through the report, and the progress is impressive. The team has done a fantastic job, and I appreciate the hard work everyone has put in. I have a few minor suggestions that I'll include in the attached document. Let's discuss these during our next meeting. Keep up the excellent work! Best regards, Alice",
+    tags: [
+      "work",
+      "important",
+    ],
+    replyTo: "alicesmith@example.com",
+    unread: false,
+  },
+  {
+    // id: i.toString(),
+    from: "Bob Johnson",
+    date: "Apr 10, 2023, 11:45:00 AM",
+    subject: "Weekend Plans",
+    message: "Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It's been a while since we had some outdoor fun. If you're interested, let me know, and we can plan the details. It'll be a great way to unwind and enjoy nature. Looking forward to your response! Best, Bob",
+    tags: [
+      "personal",
+    ],
+    replyTo: "bobjohnson@example.com",
+    unread: false,
+  },
+  {
+    // id: i.toString(),
+    from: "Emily Davis",
+    date: "Mar 25, 2023, 1:15:00 PM",
+    subject: "Re: Question about Budget",
+    message: "I have a question about the budget for the upcoming project. It seems like there's a discrepancy in the allocation of resources. I've reviewed the budget report and identified a few areas where we might be able to optimize our spending without compromising the project's quality. I've attached a detailed analysis for your reference. Let's discuss this further in our next meeting. Thanks, Emily",
+    tags: [
+      "work",
+      "budget",
+    ],
+    replyTo: "emilydavis@example.com",
+    unread: true,
+  },
+  {
+    // id: i.toString(),
+    from: "Michael Wilson",
+    date: "Mar 10, 2023, 3:00:00 PM",
+    subject: "Important Announcement",
+    message: "I have an important announcement to make during our team meeting. It pertains to a strategic shift in our approach to the upcoming product launch. We've received valuable feedback from our beta testers, and I believe it's time to make some adjustments to better meet our customers' needs. This change is crucial to our success, and I look forward to discussing it with the team. Please be prepared to share your insights during the meeting. Regards, Michael",
+    tags: [
+      "meeting",
+      "work",
+      "important",
+    ],
+    replyTo: "michaelwilson@example.com",
+    unread: true,
+  },
+  {
+    // id: i.toString(),
+    from: "Sarah Brown",
+    date: "Feb 15, 2023, 4:30:00 PM",
+    subject: "Re: Feedback on Proposal",
+    message: "Thank you for your feedback on the proposal. It looks great! I'm pleased to hear that you found it promising. The team worked diligently to address all the key points you raised, and I believe we now have a strong foundation for the project. I've attached the revised proposal for your review. Please let me know if you have any further comments or suggestions. Looking forward to your response. Best regards, Sarah",
+    tags: [
+      "work",
+    ],
+    replyTo: "sarahbrown@example.com",
+    unread: false,
+  },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+  // {
+  //   // id: i.toString(),
+  //   from: "William Smith",
+  //   date: "Oct 22, 2023, 9:00:00 AM",
+  //   subject: "Meeting Tomorrow",
+  //   message: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success. Please come prepared with any questions or insights you may have. Looking forward to our meeting! Best regards, William",
+  //   tags: [
+  //     "meeting",
+  //     "work",
+  //     "important",
+  //   ],
+  //   replyTo: "williamsmith@example.com",
+  // },
+]
