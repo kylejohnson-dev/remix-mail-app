@@ -83,7 +83,7 @@ export default function Index() {
           <TabsList className="h-auto flex flex-col gap-y-1 bg-white p-2">
             <TabsTrigger 
               value="inbox" 
-              className={`${isCollapsed && 'justify-center'} w-full group-[[data-collapsed=true]]:justify-center justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full group-[[data-collapsed=true]]:justify-center justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
             >
               <Inbox className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -95,7 +95,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="drafts" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
             >
               <File className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -107,7 +107,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="sent" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
               >
               <Send className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -119,7 +119,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="junk" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
               >
               <ArchiveX className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -131,7 +131,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="trash" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
               >
               <Trash2 className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -143,7 +143,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="archive" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
             >
               <Archive className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -156,7 +156,7 @@ export default function Index() {
             <Separator orientation="horizontal" className="w-[calc(100%+16px)] my-1" />
             <TabsTrigger 
               value="social" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
             >
               <Users className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -168,7 +168,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="updates" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
             >
               <CircleAlert className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -180,7 +180,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="forums" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
               >
               <MessagesSquare className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -192,7 +192,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="shopping" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
               >
               <ShoppingCart className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
@@ -204,7 +204,7 @@ export default function Index() {
             </TabsTrigger>
             <TabsTrigger 
               value="promotions" 
-              className={`${isCollapsed && 'justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
+              className={`${isCollapsed && '!justify-center'} w-full justify-start !shadow-none font-normal text-black py-2 data-[state=active]:bg-primary data-[state=active]:text-white hover:bg-secondary`}
               >
               <Archive className={`${isCollapsed && 'mr-0'} mr-2 h-5 w-5`} />
               {!isCollapsed && 
