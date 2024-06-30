@@ -35,7 +35,7 @@ export default function Index() {
     <ResizablePanelGroup
       direction="horizontal"
       // className="fixed inset-0"
-      className="absolute inset-x-0 top-0 h-svh"
+      className="absolute inset-x-0 top-0 h-full"
 
     >
       <ResizablePanel 
