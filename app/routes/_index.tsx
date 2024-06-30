@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Archive, ArchiveX, CircleAlert, Clock, EllipsisVertical, File, Forward, Inbox, Mail, MessagesSquare, Reply, ReplyAll, Send, ShoppingCart, Trash2, Users } from "lucide-react";
 import { useState } from "react";
+import MobileNav from "~/components/MobileNav";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "~/components/ui/resizable";
@@ -23,7 +24,6 @@ export default function Index() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   function onCollapse() {
-    console.log("collasped")
     setIsCollapsed(true)
   }
 
@@ -34,7 +34,9 @@ export default function Index() {
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="fixed inset-0"
+      // className="fixed inset-0"
+      className="absolute inset-x-0 top-0 h-svh"
+
     >
       <ResizablePanel 
         defaultSize={20} 
@@ -311,6 +313,7 @@ export default function Index() {
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={40} minSize={40}>
             <div className="flex items-center px-4 py-2">
+              <MobileNav />
               <h1 className="text-xl font-bold">Inbox</h1>
               <Tabs defaultValue="all-mail" className="ml-auto">
                 <TabsList className="grid w-full grid-cols-2">
