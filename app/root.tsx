@@ -16,7 +16,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="fixed top-0 inset-x-0 max-h-dvh h-screen">
+      <body 
+        // className="fixed top-0 inset-x-0 max-h-dvh h-screen"
+      >
         {children}
         <ScrollRestoration />
         <Scripts />
